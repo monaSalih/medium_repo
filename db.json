@@ -1,0 +1,46 @@
+{
+  "item": [
+    {
+      "id": "3",
+      "image": "products/03.jpg",
+      "title": "Butter Biscuit",
+      "description": "Rich buttery flavor experience.",
+      "price": "9,99"
+    },
+    {
+      "id": "4",
+      "image": "products/04.jpg",
+      "title": "Digestive Biscuit",
+      "description": "Wholesome and hearty snack.",
+      "price": "9,99"
+    },
+    {
+      "id": "5",
+      "image": "products/05.jpg",
+      "title": "Ginger Biscuit",
+      "description": "Spicy and sweet delight.",
+      "price": "9,99"
+    },
+    {
+      "id": "6",
+      "image": "products/06.jpg",
+      "title": "Almond Biscuit",
+      "description": "Nutty and crunchy goodness.",
+      "price": "9,99"
+    },
+    {
+      "id": "7",
+      "image": "products/04.jpg",
+      "title": "Jammy Dodger",
+      "description": "Sweet jam-filled sandwich.",
+      "price": "100"
+    },
+    {
+      "id": "8",
+      "image": "products/08.jpg",
+      "title": "Chocolate Biscuit",
+      "description": "Crunchy chocolate-filled delight.",
+      "price": "15,99"
+    }
+  ]
+}
