@@ -32,9 +32,7 @@ function data_form(json_data) {
     <a href="#" class="btn btn-primary" onClick="update_item(${product.id})">UPDATE</a>
   </div>
   </div>
-</div>
-  
-    `;
+</div>`;
     // console.log(product.title, "product.title");
     div_show_json_data.appendChild(inner_div);
   });
@@ -44,27 +42,34 @@ function data_form(json_data) {
 function create_data_form(event) {
   event.preventDefault();
   let last_item = data_con.items;
-  const lastItem = last_item[last_item.length - 1].id;
+  const last_item_details = Number(last_item[last_item.length - 1].id);
 
   // Log the last item
-  console.log("Last Item:", lastItem);
+  console.log("Last Item:", typeof(Number(last_item_details)));
   // input data
   let item_link=document.getElementById('Item_img').value;
   let item_title= document.getElementById('Item_title').value;
   let item_description= document.getElementById('Item_dis').value;
   let item_price= document.getElementById('Item_pri').value;
   console.log("title= ",item_link," item_title= ",item_title," item_description= ",item_description," item_price= ",item_price);
-  
-  // add item
-  // fetch("http://localhost:3000/items", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(new_item),
-  // })
-  //   .then((response) => response.json())
-  //   .then((item) => console.log(item));
+  const new_item = { "id":last_item_details+1,
+    "image":item_link,
+    "title": item_title,
+      "description": item_description,
+      "price": item_price
+   };
+  //  console.log("new_item= ",new_item);
+   
+  // // add item
+  fetch("http://localhost:3000/items", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(new_item),
+  })
+    .then((response) => response.json())
+    .then((item) => console.log(item));
 }
 
 // function to show confirm delete msg
@@ -73,8 +78,8 @@ function delete_item(id) {
   let append_modal = document.createElement("div");
   append_modal.className = "modal-dialog";
   model_cont.appendChild(append_modal);
-  append_modal.innerHTML = `
-      <div class="modal-content">
+  append_modal.innerHTML = 
+      `<div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Modal title</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -125,8 +130,8 @@ async function update_item(id) {
     modalWrapper.id = "update_modal";
     modalWrapper.className = "modal fade"; // Bootstrap modal needs 'fade' class
     modalWrapper.tabIndex = "-1"; // Important for Bootstrap
-    modalWrapper.innerHTML = `
-      <div class="modal-dialog">
+    modalWrapper.innerHTML = 
+      `<div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Update Item</h5>
