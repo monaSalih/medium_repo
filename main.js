@@ -14,26 +14,26 @@ let div_show_json_data = document.getElementById("data_show");
 function data_form(json_data) {
   // console.log("json_data", json_data);
   div_show_json_data.innerHTML = "";
-  json_data.items.forEach((product) => {
-    // console.log(product, "map");
+  json_data.items.forEach((item) => {
+    // console.log(item, "map");
     let inner_div = document.createElement("div");
     inner_div.className = "col-md-3";
 
     inner_div.innerHTML = `
     <div class="card mt-3">
-     <img src=${product.image} class="card-img-top" alt="..." style="width: 260px; height:100px">
+     <img src=${item.image} class="card-img-top" alt="..." style="width: 260px; height:100px">
   <div class="card-body">
-    <h5 class="card-title">${product.title}</h5>
-    <p class="card-text">${product.description}</p>
-    <p class="card-text">${product.price}</p>
+    <h5 class="card-title">${item.title}</h5>
+    <p class="card-text">${item.description}</p>
+    <p class="card-text">${item.price}</p>
     <div class="d-flex justify-content-between">
 
-    <a href="#" class="btn btn-primary " onClick="delete_item(${product.id})">DELETE </a>
-    <a href="#" class="btn btn-primary" onClick="update_item(${product.id})">UPDATE</a>
+    <a href="#" class="btn btn-primary " onClick="delete_item(${item.id})">DELETE </a>
+    <a href="#" class="btn btn-primary" onClick="update_item(${item.id})">UPDATE</a>
   </div>
   </div>
 </div>`;
-    // console.log(product.title, "product.title");
+    // console.log(item.title, "item.title");
     div_show_json_data.appendChild(inner_div);
   });
 }
@@ -76,27 +76,36 @@ function create_data_form(event) {
 let model_cont = document.getElementById("delete_model_container");
 function delete_item(id) {
   let append_modal = document.createElement("div");
-  append_modal.className = "modal-dialog";
-  model_cont.appendChild(append_modal);
+  append_modal.className = "modal fade";
+  append_modal.id = `deleteModal_${id}`; // Unique ID for each modal
+  append_modal.setAttribute("tabindex", "-1");
+  append_modal.setAttribute("role", "dialog");
+  
   append_modal.innerHTML = 
-      `<div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      `<div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete his item</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" onClick="confirm_delete_item(${id})">Confirm Delete</button>
+          </div>
         </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onClick="confirm_delete_item(${id})">Confirm delete</button>
-        </div>
-      </div>
-    </div>`;
-  append_modal = new bootstrap.Modal(model_cont);
-  // console.log("hello",id);
-  append_modal.show();
+      </div>`;
+
+  // Append modal to body
+  document.body.appendChild(append_modal);
+
+  // Initialize and show Bootstrap modal
+  let modalInstance = new bootstrap.Modal(append_modal);
+  modalInstance.show();
 }
+
 // function to delete item passed on id after confirm
 
 function confirm_delete_item(id) {
@@ -172,13 +181,13 @@ async function update_item(id) {
       .addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        let updatedProduct = {
+        let updated_item = {
           title: event.target.title_value.value,
           description: event.target.description_value.value,
           price: event.target.price_value.value,
         };
 
-        console.log("Updated Data to Send:", updatedProduct);
+        console.log("Updated Data to Send:", updated_item);
 
         // **Send PATCH request**
         try {
@@ -189,7 +198,7 @@ async function update_item(id) {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(updatedProduct),
+              body: JSON.stringify(updated_item),
             }
           );
 
